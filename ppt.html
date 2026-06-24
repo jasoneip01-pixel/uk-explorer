@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>走近英国 · 幻灯片</title>
+<meta name="description" content="英国地理、历史、文化与教育 - 幻灯片展示">
+<meta name="theme-color" content="#1d3557">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1c20;color:#f0ede8;-webkit-user-select:none;user-select:none}
+/* ===== SLIDE STACK ===== */
+.slides{position:relative;width:100%;height:100%;overflow:hidden}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem 4rem;transition:transform .55s cubic-bezier(.4,0,.2,1),opacity .55s cubic-bezier(.4,0,.2,1);will-change:transform,opacity;overflow-y:auto}
+.slide.prev{transform:translateX(-100%);opacity:0;pointer-events:none}
+.slide.next{transform:translateX(100%);opacity:0;pointer-events:none}
+.slide.active{transform:translateX(0);opacity:1;pointer-events:auto;z-index:2}
+.slide.leaving{transform:translateX(-30%) scale(.96);opacity:0;z-index:1}
+/* ===== BACKGROUND IMAGE OVERLAYS ===== */
+.bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center}
+.bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(29,53,87,.88),rgba(42,74,127,.72))}
+.overlay-light .bg::after{background:linear-gradient(135deg,rgba(240,237,232,.85),rgba(255,255,255,.75))}
+.overlay-mid .bg::after{background:linear-gradient(135deg,rgba(29,53,87,.7),rgba(42,74,127,.55))}
+.slide-inner{position:relative;z-index:1;width:100%;max-width:960px;text-align:center}
+/* ===== TYPOGRAPHY ===== */
+h1{font-size:clamp(2.2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:.6rem;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+.overlay-light h1,.overlay-light .section-title{color:#1d3557;text-shadow:none}
+.overlay-light .sub{color:#3a4a5a;text-shadow:none}
+h2{font-size:clamp(1.6rem,4.5vw,3.2rem);font-weight:700;letter-spacing:-.02em;margin-bottom:.6rem}
+.section-title{font-size:clamp(1.4rem,4vw,2.8rem);font-weight:700;margin-bottom:.4rem}
+.sub{font-size:clamp(.85rem,2vw,1.25rem);font-weight:300;opacity:.85;margin-bottom:1.5rem;max-width:700px;margin-left:auto;margin-right:auto}
+.overlay-light p,.overlay-light .sub{color:#3a4a5a}
+p{font-size:clamp(.8rem,1.8vw,1.1rem);line-height:1.7;opacity:.9;max-width:680px;margin:0 auto}
+/* ===== GRID / CARDS ===== */
+.pt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:900px;margin:1rem auto 0;text-align:left}
+@media(max-width:600px){.pt-grid{grid-template-columns:1fr;max-width:500px;margin-left:auto;margin-right:auto}}
+.pt-card{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:14px;padding:1.1rem 1.25rem;border:1px solid rgba(255,255,255,.15)}
+.overlay-light .pt-card{background:rgba(255,255,255,.65);border-color:rgba(255,255,255,.4)}
+.pt-card h3{font-size:.9rem;font-weight:600;margin-bottom:.4rem;color:#a8d0e6}
+.overlay-light .pt-card h3{color:#1d3557}
+.pt-card p,.pt-card li{font-size:.78rem;line-height:1.6;color:rgba(240,237,232,.82)}
+.overlay-light .pt-card p,.overlay-light .pt-card li{color:#3a4050}
+.pt-card ul{padding-left:1rem;list-style:none}
+.pt-card ul li::before{content:'▸ ';color:#e63946;font-weight:700}
+.pt-card ul li{margin-bottom:.3rem}
+.pt-card p strong{color:#e63946}
+/* ===== CITY CARDS (compact) ===== */
+.city-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;max-width:960px;margin:1.25rem auto 0}
+@media(max-width:700px){.city-grid{grid-template-columns:repeat(2,1fr)}}
+.city-card{background:rgba(255,255,255,.1);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.12);text-align:center;transition:transform .2s}
+.overlay-light .city-card{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.3)}
+.city-card:hover{transform:translateY(-3px)}
+.city-card .thumb{height:80px;background-size:cover;background-position:center}
+.city-card .name{padding:.5rem .3rem;font-size:.75rem;font-weight:600}
+.city-card .name small{display:block;font-weight:300;font-size:.6rem;opacity:.65;margin-top:.1rem}
+/* ===== TIMELINE ===== */
+.pt-timeline{position:relative;padding:.5rem 0;text-align:left;max-width:750px;margin:1rem auto 0}
+.pt-timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.2)}
+.pt-tl-item{padding-left:2.5rem;position:relative;margin-bottom:.7rem}
+.pt-tl-item::before{content:'';position:absolute;left:6px;top:6px;width:18px;height:18px;border-radius:50%;background:#e63946;border:2px solid rgba(255,255,255,.8)}
+.pt-tl-item .year{font-weight:700;font-size:.85rem;color:#a8d0e6}
+.pt-tl-item p{font-size:.75rem;opacity:.75;line-height:1.5;text-align:left;margin:0}
+/* ===== FACT ROW ===== */
+.fact-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:1rem}
+.fact{text-align:center;min-width:100px;padding:.6rem .8rem;background:rgba(255,255,255,.1);border-radius:10px}
+.overlay-light .fact{background:rgba(255,255,255,.55)}
+.fact .num{font-size:clamp(1.2rem,3vw,2rem);font-weight:700;color:#e63946}
+.fact .lbl{font-size:.6rem;opacity:.7;margin-top:.1rem}
+/* ===== FLAGS ===== */
+.flag-row{font-size:clamp(1.5rem,4vw,2.5rem);margin-bottom:.75rem;letter-spacing:.3rem}
+/* ===== NAV CONTROLS ===== */
+.nav-dots{position:fixed;z-index:20;right:1.25rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.35rem}
+.nav-dots button{width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:transparent;cursor:pointer;transition:all .25s;padding:0;flex-shrink:0}
+.nav-dots button.active{background:#f0ede8;border-color:#f0ede8;transform:scale(1.4)}
+.nav-arrows{position:fixed;z-index:20;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;gap:2rem;align-items:center}
+.nav-arrows button{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#f0ede8;font-size:1.2rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.nav-arrows button:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.15)}
+.nav-counter{font-size:.7rem;font-weight:300;opacity:.5;letter-spacing:.06em;min-width:3.5rem;text-align:center}
+@media(hover:none){.nav-dots{right:.6rem}.nav-dots button{width:6px;height:6px}.nav-arrows{bottom:1rem}}
+/* ===== HIGHLIGHT ===== */
+.highlight-box{background:rgba(255,255,255,.08);border-radius:12px;padding:.9rem 1.25rem;margin-top:.75rem;border-left:3px solid #e63946;text-align:left;max-width:750px;margin-left:auto;margin-right:auto}
+.overlay-light .highlight-box{background:rgba(29,53,87,.06);border-left-color:#e63946}
+.highlight-box p{font-size:.78rem;margin:0}
+/* ===== VIDEO WRAP ===== */
+.video-wrap{width:100%;max-width:640px;margin:.5rem auto 0;aspect-ratio:16/9;background:rgba(0,0,0,.3);border-radius:12px;overflow:hidden;position:relative}
+.video-wrap .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);cursor:pointer;z-index:2}
+.video-wrap .play span{font-size:clamp(2rem,5vw,3.5rem);opacity:.8;transition:opacity .2s}
+.video-wrap .play:hover span{opacity:1}
+.video-wrap iframe{width:100%;height:100%;border:0}
+/* ===== ANIMATIONS ===== */
+.slide.active .fade{animation:fadeUp .5s ease-out both}
+.slide.active .fade-1{animation-delay:.1s}.slide.active .fade-2{animation-delay:.2s}
+.slide.active .fade-3{animation-delay:.3s}.slide.active .fade-4{animation-delay:.4s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.slide{transition:none}.fade,.fade-1,.fade-2,.fade-3,.fade-4{animation:none!important}}
+/* ===== REGION GRID ===== */
+.region-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;max-width:850px;margin:.75rem auto 0;text-align:left}
+@media(max-width:600px){.region-grid{grid-template-columns:1fr}}
+.r-card{padding:.8rem 1rem;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)}
+.overlay-light .r-card{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.3)}
+.r-card h4{font-size:.8rem;font-weight:600;color:#a8d0e6;margin-bottom:.25rem}
+.overlay-light .r-card h4{color:#1d3557}
+.r-card p{font-size:.7rem;opacity:.75;line-height:1.5;margin:0}
+/* ===== FLIP CARDS (simplified) ===== */
+.univ-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:750px;margin:1rem auto 0}
+@media(max-width:550px){.univ-row{grid-template-columns:1fr;max-width:380px}}
+.uni-card{background:rgba(255,255,255,.1);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .3s;border:1px solid rgba(255,255,255,.12)}
+.overlay-light .uni-card{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.3)}
+.uni-card .preview{height:100px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:.6rem .8rem;font-weight:600;font-size:.85rem;background-color:#2a3a5a}
+.uni-card .details{padding:.7rem .8rem;font-size:.72rem;line-height:1.55;opacity:.82;max-height:0;overflow:hidden;transition:max-height .35s ease}
+.uni-card.open .details{max-height:200px;padding-bottom:.9rem}
+.uni-card .hint{font-size:.6rem;opacity:.5;margin-top:.3rem}
+</style>
+</head>
+<body>
+
+<div class="slides" id="slides">
+
+<!-- ===== 1. COVER ===== -->
+<section class="slide active" data-idx="0">
+  <div class="bg" style="background-image:url('uk_big_ben.jpg')"></div>
+  <div class="slide-inner">
+    <div class="flag-row fade fade-1">🏴󠁧󠁢󠁥󠁮󠁧󠁿 🏴󠁧󠁢󠁳󠁣󠁴󠁿 🏴󠁧󠁢󠁷󠁬󠁳󠁿 🇮🇪</div>
+    <h1 class="fade fade-2">走近英国</h1>
+    <p class="sub fade fade-3">The United Kingdom — 在古老与传统中，看见创新与未来</p>
+    <p class="fade fade-4" style="margin-top:2rem;opacity:.5;font-size:.8rem">← 方向键 / 点击两侧 翻页 →</p>
+  </div>
+</section>
+
+<!-- ===== 2. GEOGRAPHY ===== -->
+<section class="slide next overlay-mid" data-idx="1">
+  <div class="bg" style="background-image:url('uk_aerial_web.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="fade fade-1">🌍 地理位置 &amp; 地形</h2>
+    <p class="sub fade fade-2">英国位于欧洲西北部，由大不列颠岛及周边岛屿组成</p>
+    <div class="region-grid fade fade-3">
+      <div class="r-card"><h4>🏴󠁧󠁢󠁥󠁮󠁧󠁿 英格兰</h4><p>面积最大、人口最多。南部平原+北部奔宁山脉。首都伦敦位于泰晤士河畔。</p></div>
+      <div class="r-card"><h4>🏴󠁧󠁢󠁳󠁣󠁴󠁿 苏格兰</h4><p>高地山地为主。本尼维斯山(1345m)最高。780+岛屿。首府爱丁堡。</p></div>
+      <div class="r-card"><h4>🏴󠁧󠁢󠁷󠁬󠁳󠁿 威尔士</h4><p>多山地丘陵。斯诺登山(1085m)。海岸线+城堡遗迹闻名。首府卡迪夫。</p></div>
+      <div class="r-card"><h4>🇮🇪 北爱尔兰</h4><p>平原低丘陵。内伊湖为全英最大湖。巨人堤道自然奇观。首府贝尔法斯特。</p></div>
+    </div>
+    <p class="fade fade-4" style="font-size:.75rem;margin-top:.75rem;opacity:.55">总面积 ≈ 24.4 万 km² · 经纬度 49°–61°N, 8°W–2°E</p>
+  </div>
+</section>
+
+<!-- ===== 3. RIVERS & CAPITAL ===== -->
+<section class="slide next overlay-light" data-idx="2">
+  <div class="bg" style="background-image:url('uk_tower_bridge.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1" style="color:#1d3557">主要河流 &amp; 首都</h2>
+    <p class="sub fade fade-2">英国的河流虽不漫长，却在工业革命与城市发展中扮演了关键角色</p>
+    <div class="pt-grid fade fade-3">
+      <div class="pt-card">
+        <h3>🌊 主要河流</h3>
+        <p><strong>泰晤士河</strong> 346km · 流经伦敦<br>
+        <strong>塞文河</strong> 354km · 英国最长<br>
+        <strong>特伦特河</strong> 298km · 中部水道<br>
+        <strong>克莱德河</strong> 176km · 苏格兰</p>
+      </div>
+      <div class="pt-card">
+        <h3>🏙️ 首都：伦敦</h3>
+        <p>泰晤士河下游，人口约 900 万<br>
+        全球顶级金融中心 · 希思罗机场<br>
+        大本钟 · 伦敦眼 · 白金汉宫</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. MAJOR CITIES ===== -->
+<section class="slide next overlay-mid" data-idx="3">
+  <div class="bg" style="background-image:url('uk_london_night.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1">主要城市</h2>
+    <p class="sub fade fade-2">英国四大地区的首府 — 各自的故事与气质</p>
+    <div class="city-grid fade fade-3">
+      <div class="city-card">
+        <div class="thumb" style="background-image:url('uk_financial.jpg')"></div>
+        <div class="name">🏴󠁧󠁢󠁥󠁮󠁧󠁿 伦敦<small>London · 900万</small></div>
+      </div>
+      <div class="city-card">
+        <div class="thumb" style="background-image:url('uk_edinburgh.jpg')"></div>
+        <div class="name">🏴󠁧󠁢󠁳󠁣󠁴󠁿 爱丁堡<small>Edinburgh · 50万</small></div>
+      </div>
+      <div class="city-card">
+        <div class="thumb" style="background-image:url('uk_cardiff3.jpg')"></div>
+        <div class="name">🏴󠁧󠁢󠁷󠁬󠁳󠁿 卡迪夫<small>Cardiff · 36万</small></div>
+      </div>
+      <div class="city-card">
+        <div class="thumb" style="background-image:url('uk_belfast3.jpg')"></div>
+        <div class="name">🇮🇪 贝尔法斯特<small>Belfast · 34万</small></div>
+      </div>
+    </div>
+    <p style="font-size:.7rem;margin-top:.6rem;opacity:.55">全球金融中心 · 艺术节之都 · 千年古堡之城 · 泰坦尼克号诞生地</p>
+  </div>
+</section>
+
+<!-- ===== 5. AGRICULTURE ===== -->
+<section class="slide next overlay-light" data-idx="4">
+  <div class="bg" style="background-image:url('uk_farmland.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1" style="color:#1d3557">🌾 农业与种植</h2>
+    <p class="sub fade fade-2">英国农业以畜牧业为主体，受温带海洋性气候深刻影响</p>
+    <div class="pt-grid fade fade-3">
+      <div class="pt-card">
+        <h3>✅ 优势</h3>
+        <ul>
+          <li>温和湿润，牧草全年生长</li>
+          <li>南部平原土壤肥沃</li>
+          <li>轮作 + 现代农业技术</li>
+        </ul>
+      </div>
+      <div class="pt-card">
+        <h3>⚠️ 挑战</h3>
+        <ul>
+          <li>高纬度日照不足</li>
+          <li>降雨频繁导致涝渍</li>
+          <li>劳动成本高，进口依赖大</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box fade fade-4">
+      <p>🌾 主要作物：大麦、小麦、油菜籽 · 🐑 畜牧业占比 &gt;60% · 科茨沃尔德是农牧结合的典范</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. INDUSTRIAL REVOLUTION ===== -->
+<section class="slide next" data-idx="5">
+  <div class="bg" style="background-image:url('uk_industrial.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1">⚙️ 工业革命</h2>
+    <p class="sub fade fade-2">英国是工业革命的发源地 · 约 1760–1840 · 从手工到机器的飞跃</p>
+    <div class="pt-grid fade fade-3">
+      <div class="pt-card">
+        <h3>📜 核心变革</h3>
+        <p>蒸汽机改良 → 机器取代手工<br>
+        纺织业机械化 → 工厂制度诞生<br>
+        交通 · 采矿 · 冶金全面革新<br>
+        英国成为"世界工厂"</p>
+      </div>
+      <div class="pt-card">
+        <h3>👤 杰出代表</h3>
+        <p><strong>瓦特</strong> 改良蒸汽机 → 工业核心动力<br>
+        <strong>阿克莱特</strong> 水力纺纱机 → 现代工厂制度之父</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7. INVENTIONS ===== -->
+<section class="slide next overlay-light" data-idx="6">
+  <div class="bg" style="background-image:url('uk_steam_train.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1" style="color:#1d3557">发明成就</h2>
+    <p class="sub fade fade-2">从蒸汽机到万维网 — 英国发明家深刻改变了人类文明</p>
+    <div class="pt-timeline fade fade-3">
+      <div class="pt-tl-item"><span class="year">1712</span><p>纽科门蒸汽机 — 最早的实用蒸汽机</p></div>
+      <div class="pt-tl-item"><span class="year">1764</span><p>珍妮纺纱机 — 纺织业机械化开端</p></div>
+      <div class="pt-tl-item"><span class="year">1769</span><p>瓦特蒸汽机 — 高效蒸汽动力诞生</p></div>
+      <div class="pt-tl-item"><span class="year">1814</span><p>蒸汽机车 — 斯蒂芬森"铁路时代"</p></div>
+      <div class="pt-tl-item"><span class="year">1837</span><p>电报 — 库克 &amp; 惠斯通</p></div>
+      <div class="pt-tl-item"><span class="year">1989</span><p>🌐 万维网 — 伯纳斯-李 · 信息时代开启</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. ECONOMY & EDUCATION ===== -->
+<section class="slide next" data-idx="7">
+  <div class="bg" style="background-image:url('uk_financial.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1">现代经济与教育</h2>
+    <p class="sub fade fade-2">全球第六大经济体 · 最受欢迎的留学目的地之一</p>
+    <div class="fact-row fade fade-3">
+      <div class="fact"><div class="num">#6</div><div class="lbl">全球经济体</div></div>
+      <div class="fact"><div class="num">38%</div><div class="lbl">外汇交易份额</div></div>
+      <div class="fact"><div class="num">600K+</div><div class="lbl">年留学生</div></div>
+      <div class="fact"><div class="num">800+</div><div class="lbl">年牛津历史</div></div>
+    </div>
+    <div class="pt-grid fade fade-4" style="margin-top:.75rem">
+      <div class="pt-card"><h3>💰 支柱产业</h3><p>金融服务 · 科技 · 制药 · 创意产业 · 航空航天</p></div>
+      <div class="pt-card"><h3>🎓 教育体系</h3><p>牛津(1096)·剑桥(1209)·帝国理工 · GCSE/A-Level 体系</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 9. UNIVERSITIES ===== -->
+<section class="slide next overlay-light" data-idx="8">
+  <div class="bg" style="background-image:url('uk_oxford.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1" style="color:#1d3557">世界名校</h2>
+    <p class="sub fade fade-2">英国拥有世界最顶尖的高等学府 · 点击卡片展开详情</p>
+    <div class="univ-row fade fade-3">
+      <div class="uni-card open" onclick="this.classList.toggle('open')">
+        <div class="preview" style="background-image:url('uk_oxford.jpg')">🏛️ 牛津大学</div>
+        <div class="details">
+          <strong>University of Oxford</strong><br>
+          英语世界最古老 (1096年建校)<br>
+          28 位英国首相 · 55 位诺贝尔奖得主<br>
+          博德利图书馆藏书 1300 万册
+          <div class="hint">👆 点击收起</div>
+        </div>
+      </div>
+      <div class="uni-card open" onclick="this.classList.toggle('open')">
+        <div class="preview" style="background-image:url('uk_imperial.jpg')">🔬 帝国理工学院</div>
+        <div class="details">
+          <strong>Imperial College London</strong><br>
+          成立于 1907，专注科学·工程·医学<br>
+          QS 全球前 10 · 14 位诺贝尔奖得主<br>
+          位于伦敦南肯辛顿
+          <div class="hint">👆 点击收起</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10. VIDEO ===== -->
+<section class="slide next" data-idx="9">
+  <div class="bg" style="background-image:url('uk_big_ben.jpg')"></div>
+  <div class="slide-inner">
+    <h2 class="section-title fade fade-1">🇬🇧 英国在世界中的地位</h2>
+    <p class="sub fade fade-2">联合国安理会五常 · 北约 · G7 · G20 · 英联邦</p>
+    <div class="video-wrap fade fade-3">
+      <div class="play" id="ytplay"><span>▶</span></div>
+      <div id="ytcontainer"></div>
+    </div>
+    <div class="pt-grid fade fade-4" style="max-width:700px;margin-top:.75rem">
+      <div class="pt-card"><h3>🌍 全球影响</h3><p>BBC 覆盖 3.5 亿用户 · 英语为最广泛第二语言 · 英联邦 56 国 26 亿人口</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11. ENDING ===== -->
+<section class="slide next" data-idx="10">
+  <div class="bg" style="background-image:url('uk_london_night.jpg')"></div>
+  <div class="slide-inner">
+    <div class="flag-row fade fade-1">🏴󠁧󠁢󠁥󠁮󠁧󠁿 🏴󠁧󠁢󠁳󠁣󠁴󠁿 🏴󠁧󠁢󠁷󠁬󠁳󠁿 🇮🇪</div>
+    <h1 class="fade fade-2">走近英国</h1>
+    <p class="sub fade fade-3" style="max-width:600px">
+    从寒冷的高地到温润的平原，<br>
+    从蒸汽机的轰鸣到互联网的静默传递，<br>
+    英国是一个将古老传统与现代创新完美融合的国家。</p>
+    <p class="fade fade-4" style="font-size:1rem;font-weight:600;margin-top:1rem">四国一体，一个王国，无限可能。</p>
+    <p class="fade fade-4" style="font-size:.7rem;margin-top:1.5rem;opacity:.35">← 方向键 重新开始翻看</p>
+  </div>
+</section>
+
+</div>
+
+<!-- ===== NAV CONTROLS ===== -->
+<div class="nav-dots" id="navdots"></div>
+<div class="nav-arrows">
+  <button id="prevBtn" aria-label="上一页">←</button>
+  <span class="nav-counter" id="counter">1 / 11</span>
+  <button id="nextBtn" aria-label="下一页">→</button>
+</div>
+
+<script>
+(function(){
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  let animating = false;
+
+  // Build dots
+  const dots = document.getElementById('navdots');
+  for (let i = 0; i < total; i++) {
+    const btn = document.createElement('button');
+    btn.setAttribute('aria-label','转到第'+(i+1)+'页');
+    btn.dataset.idx = i;
+    if (i === 0) btn.classList.add('active');
+    btn.addEventListener('click', () => go(i));
+    dots.appendChild(btn);
+  }
+  const dotBtns = dots.querySelectorAll('button');
+
+  function update() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active','prev','next','leaving');
+      if (i < current) s.classList.add('prev');
+      else if (i > current) s.classList.add('next');
+      else s.classList.add('active');
+    });
+    dotBtns.forEach((b, i) => b.classList.toggle('active', i === current));
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    animating = false;
+  }
+
+  function go(idx) {
+    if (animating || idx === current || idx < 0 || idx >= total) return;
+    animating = true;
+    // Add leaving class to current slide
+    slides[current].classList.add('leaving');
+    current = idx;
+    update();
+  }
+
+  function next() { go(Math.min(current + 1, total - 1)); }
+  function prev() { go(Math.max(current - 1, 0)); }
+
+  document.getElementById('nextBtn').addEventListener('click', next);
+  document.getElementById('prevBtn').addEventListener('click', prev);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+    if (e.key === 'Home') { e.preventDefault(); go(0); }
+    if (e.key === 'End') { e.preventDefault(); go(total - 1); }
+  });
+
+  // Click sides
+  document.addEventListener('click', e => {
+    if (e.target.closest('.nav-arrows') || e.target.closest('.nav-dots') || e.target.closest('.uni-card') || e.target.closest('.play') || e.target.closest('.city-card')) return;
+    const x = e.clientX;
+    if (x < window.innerWidth * 0.35) prev();
+    else if (x > window.innerWidth * 0.65) next();
+  });
+
+  // Touch swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) dx > 0 ? prev() : next();
+  }, {passive:true});
+
+  // YouTube lazy load
+  document.getElementById('ytplay').addEventListener('click', function() {
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/X7i3dnl72yg';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    document.getElementById('ytcontainer').appendChild(iframe);
+    this.style.display = 'none';
+  });
+
+  // Touch the timeline colors for overlay-light slides
+  // on slide 3, 5, 7, 9 (0-indexed: 2, 4, 6, 8) - overlay-light
+  // Font colors for overlay-light slides are set via CSS
+})();
+</script>
+</body>
+</html>
