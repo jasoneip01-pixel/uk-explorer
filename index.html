@@ -4,461 +4,168 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>走近英国 — 交互式探索</title>
-<!-- Outfit font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* ===== RESET & BASE ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scrollbar-width: thin; }
-body {
-  font-family: 'Outfit', sans-serif;
-  background: #f0ede8;
-  color: #1a1c20;
-  overflow-x: hidden;
-  line-height: 1.6;
-}
+<meta name="description" content="英国地理、历史、文化与教育的交互式探索学习网页">
+<meta name="theme-color" content="#1d3557">
 
-/* ===== SCROLL NAV ===== */
-.scroll-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; justify-content: center; gap: 0.25rem;
-  padding: 0.75rem 1rem;
-  background: rgba(240,237,232,0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  flex-wrap: wrap;
-}
-.scroll-nav a {
-  display: flex; align-items: center; gap: 0.3rem;
-  padding: 0.35rem 0.65rem;
-  border-radius: 100px;
-  font-size: clamp(0.65rem, 1.6vw, 0.8rem);
-  font-weight: 500;
-  color: #5a5e6a;
-  text-decoration: none;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.scroll-nav a:hover, .scroll-nav a.active {
-  background: #1d3557;
-  color: #f0ede8;
-}
-.scroll-nav a .dot {
-  display: inline-block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.4;
-}
-.scroll-nav a:hover .dot, .scroll-nav a.active .dot { opacity: 1; }
+<!-- ===== FONT: Outfit (swap, non-blocking) ===== -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789走近英国交互式探索地理文河首都农业种植工业革命发明成就代经济育名校界中学视频总结在位的长从暖到润平原蒸汽机轰鸣互联静默递四体一个国无限可能" rel="stylesheet">
+
+<!-- ===== PRELOAD HERO IMAGE ===== -->
+<link rel="preload" as="image" href="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=800&h=900&fit=crop" imagesrcset="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=400 400w, https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=800 800w, https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600 1600w" imagesizes="100vw">
+
+<!-- ===== PREFETCH PEXELS CDN ===== -->
+<link rel="preconnect" href="https://images.pexels.com" crossorigin>
+<link rel="dns-prefetch" href="https://images.pexels.com">
+<link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
+
+<style>
+/* ===== CRITICAL INLINE CSS ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#f0ede8;color:#1a1c20;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+/* ===== SCROLL NAV (always visible) ===== */
+.scroll-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:center;gap:.2rem;padding:.6rem .75rem;background:rgba(240,237,232,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);hyphens:none;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.scroll-nav::-webkit-scrollbar{display:none}
+.scroll-nav a{display:inline-flex;align-items:center;gap:.25rem;padding:.3rem .55rem;border-radius:100px;font-size:clamp(.6rem,1.5vw,.78rem);font-weight:500;color:#5a5e6a;text-decoration:none;white-space:nowrap;transition:background .15s,color .15s;flex-shrink:0}
+.scroll-nav a:active{background:#1d3557;color:#f0ede8}
+.scroll-nav a .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.4}
+@media(hover:hover){.scroll-nav a:hover{background:#1d3557;color:#f0ede8}.scroll-nav a:hover .dot{opacity:1}}
+@media(max-width:480px){.scroll-nav{padding:.4rem .5rem;gap:.15rem}.scroll-nav a{font-size:.55rem;padding:.25rem .4rem}.scroll-nav a .dot{width:4px;height:4px}}
 
 /* ===== SECTIONS ===== */
-.slide {
-  min-height: 100dvh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 6rem 1.5rem 4rem;
-  position: relative;
-  overflow: hidden;
-}
-.slide-inner {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-}
+.slide{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 1.25rem 3rem;position:relative;overflow:hidden;content-visibility:auto;contain-intrinsic-size:auto 700px}
+#cover{content-visibility:visible;contain-intrinsic-size:unset}
+.slide-inner{width:100%;max-width:1100px;margin:0 auto}
 
+/* ===== DEFERRED STYLES (loaded via JS after paint) ===== */
+.deferred-styles{display:none}
+</style>
+
+<!-- Non-critical CSS loaded async -->
+<link rel="preload" href="data:text/css;base64," as="style" id="deferred-css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="data:text/css;base64,"></noscript>
+
+<script>
+// Defer non-critical CSS until after first paint
+window.addEventListener('load', function() {
+  var css = `
 /* ===== COVER ===== */
-#cover {
-  background: linear-gradient(135deg, #1d3557 0%, #2a4a7f 50%, #457b9d 100%);
-  color: #f0ede8;
-  text-align: center;
-  padding-top: 8rem;
-}
-#cover::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
-  opacity: 0.25;
-  z-index: 0;
-}
-#cover .slide-inner { position: relative; z-index: 1; }
-#cover h1 {
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-}
-#cover .sub {
-  font-size: clamp(1rem, 3vw, 1.5rem);
-  font-weight: 300;
-  opacity: 0.85;
-  margin-bottom: 2rem;
-}
-#cover .flag-row {
-  display: flex; justify-content: center; gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-#cover .flag-row span {
-  font-size: clamp(2rem, 6vw, 3.5rem);
-}
-.cta-scroll {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.75rem 2rem;
-  border: 2px solid rgba(240,237,232,0.3);
-  border-radius: 100px;
-  color: #f0ede8;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.3s;
-  margin-top: 1rem;
-}
-.cta-scroll:hover { background: rgba(240,237,232,0.15); border-color: #f0ede8; transform: translateY(-2px); }
+#cover{background:linear-gradient(135deg,#1d3557 0%,#2a4a7f 50%,#457b9d 100%);color:#f0ede8;text-align:center;padding-top:8rem}
+#cover::before{content:'';position:absolute;inset:0;background:url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=800') center/cover no-repeat;opacity:.25;z-index:0}
+@media(min-width:800px){#cover::before{background-image:url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600')}}
+#cover .slide-inner{position:relative;z-index:1}
+#cover h1{font-size:clamp(2.5rem,8vw,5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem}
+#cover .sub{font-size:clamp(1rem,3vw,1.5rem);font-weight:300;opacity:.85;margin-bottom:2rem}
+#cover .flag-row{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem}
+#cover .flag-row span{font-size:clamp(2rem,6vw,3.5rem)}
+.cta-scroll{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 2rem;border:2px solid rgba(240,237,232,.3);border-radius:100px;color:#f0ede8;text-decoration:none;font-weight:500;font-size:.9rem;transition:all .3s;margin-top:1rem}
+.cta-scroll:hover{background:rgba(240,237,232,.15);border-color:#f0ede8;transform:translateY(-2px)}
+
+/* ===== FLAG BAR ===== */
+.flag-bar{display:flex;height:5px;margin-bottom:1rem;border-radius:3px;overflow:hidden}
+.flag-bar span{flex:1}.flag-bar .e{background:#012169}.flag-bar .s{background:#005eb8}.flag-bar .w{background:#cf142b}.flag-bar .ni{background:#169b62}
+
+/* ===== TYPOGRAPHY ===== */
+.section-title{font-size:clamp(1.4rem,3.8vw,2.4rem);font-weight:700;color:#1d3557;margin-bottom:.4rem;letter-spacing:-.02em}
+.section-sub{font-size:clamp(.82rem,1.8vw,1rem);color:#5a6a7a;margin-bottom:1.25rem;max-width:65ch}
+.slide-dark .section-title{color:#f0ede8}
+.slide-dark .section-sub{color:rgba(240,237,232,.7)}
 
 /* ===== PHOTO BANNER ===== */
-.photo-banner {
-  width: 100%;
-  height: clamp(200px, 40vh, 450px);
-  background-size: cover; background-position: center;
-  border-radius: 12px;
-  margin-bottom: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-.photo-banner .caption {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 2rem 1.5rem 1rem;
-  background: linear-gradient(transparent, rgba(0,0,0,0.6));
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 300;
-}
+.photo-banner{width:100%;height:clamp(180px,35vh,400px);background-size:cover;background-position:center;border-radius:12px;margin-bottom:1.5rem;position:relative;overflow:hidden;background-color:#d4cfc8}
+.photo-banner .caption{position:absolute;bottom:0;left:0;right:0;padding:1.5rem 1.25rem .75rem;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:.7rem;font-weight:300}
 
-/* ===== CONTENT CARDS ===== */
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-@media (max-width: 768px) {
-  .content-grid { grid-template-columns: 1fr; }
-}
-.card {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(8px);
-  border-radius: 16px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255,255,255,0.5);
-}
-.card h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1d3557;
-  margin-bottom: 0.75rem;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.card p, .card li {
-  font-size: 0.9rem;
-  color: #3a4050;
-  line-height: 1.7;
-}
-.card ul { padding-left: 1.2rem; }
-.card ul li { margin-bottom: 0.4rem; }
+/* ===== CARDS ===== */
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+@media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.65);backdrop-filter:blur(6px);border-radius:14px;padding:1.25rem;border:1px solid rgba(255,255,255,.4)}
+.card h3{font-size:.95rem;font-weight:600;color:#1d3557;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.card p,.card li{font-size:.85rem;color:#3a4050;line-height:1.65}
+.card ul{padding-left:1rem}.card ul li{margin-bottom:.35rem}
+.slide-dark .card{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.1)}
+.slide-dark .card h3{color:#a8d0e6}
+.slide-dark .card p,.slide-dark .card li{color:rgba(240,237,232,.8)}
 
-.section-title {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 700;
-  color: #1d3557;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
-}
-.section-sub {
-  font-size: clamp(0.85rem, 2vw, 1.05rem);
-  color: #5a6a7a;
-  margin-bottom: 1.5rem;
-  max-width: 65ch;
-}
-
-/* ===== MAP SECTION ===== */
-.map-container {
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-  background: #e8e4dd;
-  position: relative;
-}
-.map-container img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+/* ===== MAP ===== */
+.map-container{width:100%;border-radius:14px;overflow:hidden;margin-bottom:1.25rem;background:#d4cfc8}
+.map-container img{width:100%;height:auto;display:block}
 
 /* ===== TIMELINE ===== */
-.timeline {
-  position: relative;
-  padding: 2rem 0;
-}
-.timeline::before {
-  content: '';
-  position: absolute; left: 12px; top: 0; bottom: 0;
-  width: 3px;
-  background: linear-gradient(#1d3557, #457b9d);
-  border-radius: 3px;
-}
-.timeline-item {
-  padding-left: 2.5rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-.timeline-item::before {
-  content: '';
-  position: absolute; left: 4px; top: 6px;
-  width: 19px; height: 19px;
-  border-radius: 50%;
-  background: #e63946;
-  border: 3px solid #f0ede8;
-  box-shadow: 0 0 0 2px #e63946;
-}
-.timeline-item .year {
-  font-weight: 700;
-  color: #1d3557;
-  font-size: 0.95rem;
-}
-.timeline-item p {
-  font-size: 0.85rem;
-  color: #3a4050;
-  margin-top: 0.2rem;
-}
+.timeline{position:relative;padding:1.5rem 0}
+.timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:3px;background:linear-gradient(#1d3557,#457b9d);border-radius:3px}
+.timeline-item{padding-left:2.25rem;margin-bottom:1.25rem;position:relative}
+.timeline-item::before{content:'';position:absolute;left:4px;top:5px;width:18px;height:18px;border-radius:50%;background:#e63946;border:3px solid #f0ede8;box-shadow:0 0 0 2px #e63946}
+.timeline-item .year{font-weight:700;color:#1d3557;font-size:.9rem}
+.timeline-item p{font-size:.82rem;color:#3a4050;margin-top:.15rem}
 
-/* ===== VIDEO SECTION ===== */
-.video-wrapper {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #1a1c20;
-}
-.video-wrapper iframe {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  border: 0;
-}
+/* ===== VIDEO ===== */
+.video-wrapper{position:relative;width:100%;padding-bottom:56.25%;border-radius:14px;overflow:hidden;background:#1a1c20}
+.video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 
-/* ===== UK FLAG DECORATION ===== */
-.flag-bar {
-  display: flex; gap: 0;
-  height: 6px;
-  margin-bottom: 1rem;
-}
-.flag-bar span { flex: 1; }
-.flag-bar .e { background: #012169; }
-.flag-bar .s { background: #005eb8; }
-.flag-bar .w { background: #cf142b; }
-.flag-bar .ni { background: #169b62; }
+/* ===== HIGHLIGHT ===== */
+.highlight-box{background:linear-gradient(135deg,#1d3557,#2a4a7f);color:#f0ede8;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
+.highlight-box h3{color:#f0ede8;font-size:1rem;margin-bottom:.6rem}
+.highlight-box p{color:rgba(240,237,232,.82);font-size:.85rem}
 
-/* ===== HIGHLIGHT BOX ===== */
-.highlight-box {
-  background: linear-gradient(135deg, #1d3557, #2a4a7f);
-  color: #f0ede8;
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-}
-.highlight-box h3 {
-  color: #f0ede8;
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
-}
-.highlight-box p {
-  color: rgba(240,237,232,0.85);
-  font-size: 0.9rem;
-}
+/* ===== REGION BUTTONS ===== */
+.region-dots{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:1rem}
+.region-btn{padding:.35rem .9rem;border-radius:100px;border:1.5px solid #1d3557;background:transparent;color:#1d3557;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.region-btn.active,.region-btn:active{background:#1d3557;color:#f0ede8}
+.region-info{background:rgba(255,255,255,.65);backdrop-filter:blur(6px);border-radius:12px;padding:.9rem 1.1rem;margin-top:.6rem;font-size:.82rem;color:#3a4050;min-height:3rem;border:1px solid rgba(255,255,255,.4)}
 
-/* ===== INTERACTIVE MAP ===== */
-.interactive-map {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
-}
-.interactive-map img {
-  width: 100%; height: auto;
-  display: block;
-  border-radius: 12px;
-}
-.region-dots {
-  display: flex; flex-wrap: wrap; gap: 0.5rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
-.region-btn {
-  padding: 0.4rem 1rem;
-  border-radius: 100px;
-  border: 1.5px solid #1d3557;
-  background: transparent;
-  color: #1d3557;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-}
-.region-btn:hover, .region-btn.active {
-  background: #1d3557;
-  color: #f0ede8;
-}
-.region-info {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  margin-top: 0.75rem;
-  font-size: 0.85rem;
-  color: #3a4050;
-  border: 1px solid rgba(255,255,255,0.5);
-  min-height: 3.5rem;
-  transition: all 0.3s;
-}
+/* ===== FLIP CARDS ===== */
+.univ-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:600px){.univ-grid{grid-template-columns:1fr}}
+.flip-card{perspective:1000px;height:300px}
+.flip-card-inner{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;cursor:pointer}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg)}
+.flip-card-front,.flip-card-back{position:absolute;top:0;left:0;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;overflow:hidden}
+.flip-card-front{background-size:cover;background-position:center;display:flex;align-items:flex-end}
+.flip-card-front .label{width:100%;padding:1.25rem;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font-weight:600;font-size:1rem}
+.flip-card-back{background:#fff;transform:rotateY(180deg);padding:1.25rem;display:flex;flex-direction:column;justify-content:center}
+.flip-card-back h4{color:#1d3557;margin-bottom:.4rem}
+.flip-card-back p{font-size:.82rem;color:#3a4050;line-height:1.65}
+.flip-card-back .hint{font-size:.65rem;color:#8a9aaa;margin-top:.6rem}
 
-/* ===== UNIVERSITY FLIP CARDS ===== */
-.univ-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-@media (max-width: 600px) {
-  .univ-grid { grid-template-columns: 1fr; }
-}
-.flip-card {
-  perspective: 1000px;
-  height: 320px;
-}
-.flip-card-inner {
-  position: relative;
-  width: 100%; height: 100%;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-style: preserve-3d;
-  cursor: pointer;
-}
-.flip-card.flipped .flip-card-inner {
-  transform: rotateY(180deg);
-}
-.flip-card-front, .flip-card-back {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  backface-visibility: hidden;
-  border-radius: 16px;
-  overflow: hidden;
-}
-.flip-card-front {
-  background-size: cover; background-position: center;
-  display: flex; align-items: flex-end;
-}
-.flip-card-front .label {
-  width: 100%;
-  padding: 1.5rem;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
-  color: #fff;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-.flip-card-back {
-  background: #fff;
-  transform: rotateY(180deg);
-  padding: 1.5rem;
-  display: flex; flex-direction: column; justify-content: center;
-}
-.flip-card-back h4 {
-  color: #1d3557;
-  margin-bottom: 0.5rem;
-}
-.flip-card-back p {
-  font-size: 0.85rem;
-  color: #3a4050;
-  line-height: 1.7;
-}
-.flip-card-back .hint {
-  font-size: 0.7rem;
-  color: #8a9aaa;
-  margin-top: 0.75rem;
-}
+/* ===== FACT CARDS ===== */
+.fact-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin-bottom:1rem}
+.fact-card{text-align:center;padding:1rem .5rem;background:rgba(255,255,255,.55);border-radius:12px;border:1px solid rgba(255,255,255,.2)}
+.fact-card .num{font-size:clamp(1.3rem,3.5vw,2rem);font-weight:700;color:#e63946}
+.fact-card .label{font-size:.7rem;color:#5a6a7a;margin-top:.15rem}
 
 /* ===== SECTION BG VARIANTS ===== */
-.slide-light { background: #f0ede8; }
-.slide-cream { background: #f5f3ef; }
-.slide-dark {
-  background: linear-gradient(135deg, #1d3557 0%, #2a4a7f 100%);
-  color: #f0ede8;
-}
-.slide-dark .section-title { color: #f0ede8; }
-.slide-dark .section-sub { color: rgba(240,237,232,0.7); }
-.slide-dark .card { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.1); }
-.slide-dark .card h3 { color: #a8d0e6; }
-.slide-dark .card p, .slide-dark .card li { color: rgba(240,237,232,0.8); }
+.slide-light{background:#f0ede8}.slide-cream{background:#f5f3ef}
+.slide-dark{background:linear-gradient(135deg,#1d3557 0%,#2a4a7f 100%);color:#f0ede8}
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 480px) {
-  .slide { padding: 5rem 1rem 3rem; }
-  .card { padding: 1rem; }
-  .scroll-nav { gap: 0.15rem; padding: 0.5rem; }
-  .scroll-nav a { padding: 0.3rem 0.5rem; font-size: 0.6rem; }
-  .region-btn { font-size: 0.7rem; padding: 0.3rem 0.75rem; }
-  .timeline-item { padding-left: 2rem; }
-}
-@media (max-width: 360px) {
-  .scroll-nav a .dot { display: none; }
-  .scroll-nav a { font-size: 0.55rem; }
-}
+@media(max-width:480px){.slide{padding:4.5rem .75rem 2.5rem}.card{padding:.9rem}.region-btn{font-size:.7rem;padding:.25rem .65rem}.timeline-item{padding-left:1.9rem}}
+@media(min-width:1440px){.slide-inner{max-width:1200px}}
 
 /* ===== ANIMATIONS ===== */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.slide-visible .slide-inner > * {
-  animation: fadeUp 0.6s ease-out both;
-}
-.slide-visible .slide-inner > *:nth-child(2) { animation-delay: 0.1s; }
-.slide-visible .slide-inner > *:nth-child(3) { animation-delay: 0.2s; }
-.slide-visible .slide-inner > *:nth-child(4) { animation-delay: 0.3s; }
-.slide-visible .slide-inner > *:nth-child(5) { animation-delay: 0.4s; }
-
-/* ===== FACTS COUNTER ===== */
-.fact-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-.fact-card {
-  text-align: center;
-  padding: 1.25rem 0.75rem;
-  background: rgba(255,255,255,0.6);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.3);
-}
-.fact-card .num {
-  font-size: clamp(1.5rem, 4vw, 2.2rem);
-  font-weight: 700;
-  color: #e63946;
-}
-.fact-card .label {
-  font-size: 0.75rem;
-  color: #5a6a7a;
-  margin-top: 0.25rem;
-}
-</style>
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.slide-visible .fade-in{animation:fadeUp .5s ease-out both}
+@media(prefers-reduced-motion:reduce){.slide-visible .fade-in{animation:none;opacity:1}}
+  `;
+  
+  var style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+  
+  // Add fade-in classes to elements
+  document.querySelectorAll('.slide-inner > *').forEach(function(el, i) {
+    if (i < 4) el.classList.add('fade-in');
+  });
+});
+</script>
 </head>
 <body>
 
 <!-- ===== NAVIGATION ===== -->
 <nav class="scroll-nav" id="nav">
-  <a href="#cover" class="active"><span class="dot"></span>首页</a>
+  <a href="#cover"><span class="dot"></span>首页</a>
   <a href="#geo"><span class="dot"></span>地理</a>
   <a href="#rivers"><span class="dot"></span>河流·首都</a>
   <a href="#agri"><span class="dot"></span>农业</a>
@@ -493,9 +200,12 @@ body {
     <p class="section-sub">英国位于欧洲西北部，由大不列颠岛及周边岛屿组成，地形丰富多样。</p>
 
     <div class="map-container">
-      <img src="https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=1400"
+      <img src="https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=800"
            alt="英国田野与地形"
-           loading="lazy">
+           width="800" height="533"
+           loading="lazy" decoding="async"
+           srcset="https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=400 400w, https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=800 800w, https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=1400 1400w"
+           sizes="(max-width: 768px) 100vw, 800px">
     </div>
 
     <div class="content-grid">
@@ -515,14 +225,14 @@ body {
       </div>
     </div>
 
-    <div class="region-dots" style="margin-top:1rem;">
+    <div class="region-dots">
       <button class="region-btn active" data-region="england">🏴󠁧󠁢󠁥󠁮󠁧󠁿 英格兰</button>
       <button class="region-btn" data-region="scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 苏格兰</button>
       <button class="region-btn" data-region="wales">🏴󠁧󠁢󠁷󠁬󠁳󠁿 威尔士</button>
       <button class="region-btn" data-region="ni">🇮🇪 北爱尔兰</button>
     </div>
     <div class="region-info" id="region-info-1">
-      <strong>英格兰</strong> — 南部以平原和低矮丘陵为主，适合农耕。北部奔宁山脉被称为"英格兰脊梁"，分为东北和西北两侧，地形崎岖但风景壮丽。首都伦敦位于英格兰东南部的泰晤士河畔。
+      <strong>英格兰</strong> — 南部以平原和低矮丘陵为主，适合农耕。北部奔宁山脉被称为"英格兰脊梁"。首都伦敦位于东南部泰晤士河畔。人口约 5600 万，是英国面积最大、人口最多的地区。
     </div>
   </div>
 </section>
@@ -534,8 +244,12 @@ body {
     <h2 class="section-title">主要河流 &amp; 首都</h2>
     <p class="section-sub">英国的河流虽不漫长，却在工业革命与城市发展中扮演了不可替代的角色。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/248083/pexels-photo-248083.jpeg?auto=compress&cs=tinysrgb&w=1400')">
-      <div class="caption">伦敦塔桥（Tower Bridge）与泰晤士河 · Photo by Pexels</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/248083/pexels-photo-248083.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <picture>
+        <source media="(min-width: 800px)" srcset="https://images.pexels.com/photos/248083/pexels-photo-248083.jpeg?auto=compress&cs=tinysrgb&w=1400">
+        <img src="https://images.pexels.com/photos/248083/pexels-photo-248083.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" style="display:none" aria-hidden="true" loading="lazy" decoding="async">
+      </picture>
+      <div class="caption">伦敦塔桥（Tower Bridge）与泰晤士河</div>
     </div>
 
     <div class="content-grid">
@@ -564,8 +278,8 @@ body {
     <h2 class="section-title">农业与种植</h2>
     <p class="section-sub">英国农业以畜牧业为主体，种植业以谷物和经济作物为主，受海洋性气候影响显著。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/210012/pexels-photo-210012.jpeg?auto=compress&cs=tinysrgb&w=1400')">
-      <div class="caption">英国乡村田景 · Photo by Pexels</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/210012/pexels-photo-210012.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">英国乡村田景</div>
     </div>
 
     <div class="content-grid">
@@ -589,7 +303,7 @@ body {
       </div>
     </div>
 
-    <div class="highlight-box" style="margin-top:1rem;">
+    <div class="highlight-box" style="margin-top:.75rem">
       <h3>🌾 主要农业类型</h3>
       <p>以畜牧业为主（牛羊养殖占比超 60%），主要作物包括大麦、小麦、油菜籽和甜菜。著名的英国乡村景观（如科茨沃尔德 Cotswolds）正是农牧结合的产物。</p>
     </div>
@@ -602,8 +316,8 @@ body {
     <h2 class="section-title">工业革命</h2>
     <p class="section-sub">英国是工业革命的发源地，这场始于 18 世纪中期的变革彻底改变了人类的生产方式。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/205990/pexels-photo-205990.jpeg?auto=compress&cs=tinysrgb&w=1400')">
-      <div class="caption">工业革命时期的遗迹 · Photo by Pexels</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/205990/pexels-photo-205990.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">工业革命时期的遗迹</div>
     </div>
 
     <div class="content-grid">
@@ -629,8 +343,8 @@ body {
     <h2 class="section-title">发明成就</h2>
     <p class="section-sub">从蒸汽机到互联网，英国的发明家们深刻改变了人类文明的进程。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/268397/pexels-photo-268397.jpeg?auto=compress&cs=tinysrgb&w=1400')">
-      <div class="caption">蒸汽时代的遗迹 · Photo by Pexels</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/268397/pexels-photo-268397.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">蒸汽时代的遗迹</div>
     </div>
 
     <div class="timeline">
@@ -656,7 +370,7 @@ body {
       </div>
       <div class="timeline-item">
         <div class="year">1989 年</div>
-        <p><strong>万维网（World Wide Web）</strong> — 蒂姆·伯纳斯-李在瑞士 CERN 发明，人类信息时代由此开启</p>
+        <p><strong>万维网（World Wide Web）</strong> — 蒂姆·伯纳斯-李在 CERN 发明，人类信息时代由此开启</p>
       </div>
     </div>
   </div>
@@ -669,8 +383,8 @@ body {
     <h2 class="section-title">现代经济与教育</h2>
     <p class="section-sub">今天的英国是全球第六大经济体，也是世界上最受留学生欢迎的留学目的地之一。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/699466/pexels-photo-699466.jpeg?auto=compress&cs=tinysrgb&w=1400')">
-      <div class="caption">英国乡村与城市的和谐共生 · Photo by Pexels</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/699466/pexels-photo-699466.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">英国乡村与城市的和谐共生</div>
     </div>
 
     <div class="content-grid">
@@ -695,7 +409,7 @@ body {
       </div>
     </div>
 
-    <div class="fact-row" style="margin-top:1rem;">
+    <div class="fact-row" style="margin-top:.75rem">
       <div class="fact-card">
         <div class="num">#6</div>
         <div class="label">全球经济体排名</div>
@@ -724,9 +438,9 @@ body {
     <p class="section-sub">英国拥有世界最顶尖的高等学府，点击卡片翻转了解详情</p>
 
     <div class="univ-grid">
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card" role="button" tabindex="0" aria-label="点击查看牛津大学详情">
         <div class="flip-card-inner">
-          <div class="flip-card-front" style="background-image:url('https://images.pexels.com/photos/145492/pexels-photo-145492.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <div class="flip-card-front" style="background-image:url('https://images.pexels.com/photos/145492/pexels-photo-145492.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop')">
             <div class="label">🏛️ 牛津大学</div>
           </div>
           <div class="flip-card-back">
@@ -738,9 +452,9 @@ body {
           </div>
         </div>
       </div>
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card" role="button" tabindex="0" aria-label="点击查看帝国理工学院详情">
         <div class="flip-card-inner">
-          <div class="flip-card-front" style="background-image:url('https://images.pexels.com/photos/247908/pexels-photo-247908.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <div class="flip-card-front" style="background-image:url('https://images.pexels.com/photos/247908/pexels-photo-247908.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop')">
             <div class="label">🔬 帝国理工学院</div>
           </div>
           <div class="flip-card-back">
@@ -764,15 +478,13 @@ body {
     <p class="section-sub">A short introduction to the United Kingdom and its global influence.</p>
 
     <div class="video-wrapper">
-      <iframe src="https://www.youtube-nocookie.com/embed/X7i3dnl72yg"
-              title="UK Geography - Introduction to the United Kingdom"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-              loading="lazy">
-      </iframe>
+      <div class="video-placeholder" id="yt-placeholder" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#1a1c20;color:rgba(255,255,255,.5);font-size:.9rem;cursor:pointer;z-index:2">
+        <span>▶ 点击加载视频</span>
+      </div>
+      <div id="yt-container"></div>
     </div>
 
-    <div class="content-grid" style="margin-top:1.5rem;">
+    <div class="content-grid" style="margin-top:1.25rem">
       <div class="card">
         <h3>🌍 联合国安理会五大常任理事国</h3>
         <p>英国是联合国安理会五常之一，在全球安全事务中发挥关键作用。同时是北约、G7、G20、英联邦等国际组织的核心成员。</p>
@@ -787,74 +499,108 @@ body {
 
 <!-- ===== 10. ENDING ===== -->
 <section class="slide slide-light" id="end">
-  <div class="slide-inner" style="text-align:center;">
-    <div class="photo-banner" style="max-width:800px;margin:0 auto 2rem;height:clamp(200px,35vh,400px);background-image:url('https://images.pexels.com/photos/951531/pexels-photo-951531.jpeg?auto=compress&cs=tinysrgb&w=1400')">
-      <div class="caption">United Kingdom · Photo by Pexels</div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="photo-banner" style="max-width:700px;margin:0 auto 1.5rem;height:clamp(180px,30vh,350px);background-image:url('https://images.pexels.com/photos/951531/pexels-photo-951531.jpeg?auto=compress&cs=tinysrgb&w=700')">
+      <div class="caption">United Kingdom</div>
     </div>
 
-    <h2 class="section-title" style="text-align:center;">走近英国</h2>
-    <p class="section-sub" style="text-align:center;margin:0 auto 2rem;">
+    <h2 class="section-title" style="text-align:center">走近英国</h2>
+    <p class="section-sub" style="text-align:center;margin:0 auto 1.5rem">
     从寒冷的高地到温润的平原，从蒸汽机的轰鸣到互联网的静默传递，<br>
     英国是一个将古老传统与现代创新完美融合的国家。<br><br>
     四国一体，一个王国，无限可能。
     </p>
 
-    <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
-      <a href="#cover" style="padding:0.75rem 2rem;border-radius:100px;border:2px solid #1d3557;color:#1d3557;text-decoration:none;font-weight:500;transition:all 0.3s;">回到顶部 ↑</a>
-    </div>
+    <a href="#cover" style="display:inline-block;padding:.7rem 2rem;border-radius:100px;border:2px solid #1d3557;color:#1d3557;text-decoration:none;font-weight:500;transition:all .3s">回到顶部 ↑</a>
   </div>
 </section>
 
 <script>
-// ===== INTERACTIVE REGION INFO =====
-const regionData = {
-  england: '<strong>英格兰</strong> — 南部以平原和低矮丘陵为主，适合农耕。北部奔宁山脉被称为"英格兰脊梁"。首都伦敦位于东南部泰晤士河畔。人口约 5600 万，是英国面积最大、人口最多的地区。',
-  scotland: '<strong>苏格兰</strong> — 以高地（Highlands）闻名，本尼维斯山（1345米）为全英最高峰。拥有超过 790 个岛屿，著名的尼斯湖坐落于此。首府爱丁堡，人口约 540 万。',
-  wales: '<strong>威尔士</strong> — 多山地丘陵，斯诺登山（1085米）为国家公园核心。以壮丽的海岸线和城堡遗迹著称。首府卡迪夫，人口约 310 万。',
-  ni: '<strong>北爱尔兰</strong> — 以巨人堤道（Giant\'s Causeway）等自然奇观闻名。多平原和低矮丘陵，内伊湖是全英最大湖泊。首府贝尔法斯特，人口约 190 万。'
-};
+// ===== REGION SWITCHER =====
+(function(){
+  var data = {
+    england: '<strong>英格兰</strong> — 南部以平原和低矮丘陵为主，适合农耕。北部奔宁山脉被称为"英格兰脊梁"。首都伦敦位于东南部泰晤士河畔。人口约 5600 万，是英国面积最大、人口最多的地区。',
+    scotland: '<strong>苏格兰</strong> — 以高地（Highlands）闻名，本尼维斯山（1345米）为全英最高峰。拥有超过 790 个岛屿，著名的尼斯湖坐落于此。首府爱丁堡，人口约 540 万。',
+    wales: '<strong>威尔士</strong> — 多山地丘陵，斯诺登山（1085米）为国家公园核心。以壮丽的海岸线和城堡遗迹著称。首府卡迪夫，人口约 310 万。',
+    ni: '<strong>北爱尔兰</strong> — 以巨人堤道（Giant\'s Causeway）等自然奇观闻名。多平原和低矮丘陵，内伊湖是全英最大湖泊。首府贝尔法斯特，人口约 190 万。'
+  };
+  var infoEl = document.getElementById('region-info-1');
+  document.querySelectorAll('.region-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      document.querySelectorAll('.region-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      if (infoEl && data[btn.dataset.region]) infoEl.innerHTML = data[btn.dataset.region];
+    });
+  });
+})();
 
-document.querySelectorAll('.region-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const r = btn.dataset.region;
-    const infoEl = document.getElementById('region-info-1');
-    if (infoEl && regionData[r]) {
-      infoEl.innerHTML = regionData[r];
-      infoEl.style.animation = 'none';
-      infoEl.offsetHeight;
-      infoEl.style.animation = 'fadeUp 0.3s ease-out';
+// ===== FLIP CARDS =====
+document.querySelectorAll('.flip-card').forEach(function(card){
+  card.addEventListener('click', function(){ this.classList.toggle('flipped'); });
+  card.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.classList.toggle('flipped'); }
+  });
+});
+
+// ===== SCROLL SPY (passive for perf) =====
+(function(){
+  var links = document.querySelectorAll('.scroll-nav a');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + id); });
+      }
+    });
+  }, { threshold: 0.25, rootMargin: '-60px 0px 0px 0px' });
+  document.querySelectorAll('.slide').forEach(function(s){ observer.observe(s); });
+})();
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('.scroll-nav a, .cta-scroll').forEach(function(link){
+  link.addEventListener('click', function(e){
+    var href = this.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      var t = document.getElementById(href.slice(1));
+      if (t) t.scrollIntoView({ behavior: 'smooth' });
     }
   });
 });
 
-// ===== SCROLL SPY =====
-const slides = document.querySelectorAll('.slide');
-const navLinks = document.querySelectorAll('.scroll-nav a');
+// ===== YOUTUBE LAZY LOAD (click to load) =====
+(function(){
+  var ph = document.getElementById('yt-placeholder');
+  if (!ph) return;
+  ph.addEventListener('click', function loadYT(){
+    var container = document.getElementById('yt-container');
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/X7i3dnl72yg';
+    iframe.title = 'UK Geography - Introduction to the United Kingdom';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0';
+    iframe.loading = 'lazy';
+    container.appendChild(iframe);
+    ph.style.display = 'none';
+    // Store preference
+    try { localStorage.setItem('yt-loaded', '1'); } catch(e){}
+  });
+  // Auto-load if previously viewed
+  try { if (localStorage.getItem('yt-loaded')) document.getElementById('yt-placeholder').click(); } catch(e){}
+})();
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      navLinks.forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-      });
-      entry.target.classList.add('slide-visible');
+// ===== NAV ACTIVE STATE ON TOUCH =====
+(function(){
+  var nav = document.querySelector('.scroll-nav');
+  var ticking = false;
+  nav.addEventListener('scroll', function(){
+    if (!ticking) {
+      window.requestAnimationFrame(function(){ ticking = false; });
+      ticking = true;
     }
-  });
-}, { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' });
-
-slides.forEach(s => observer.observe(s));
-
-// ===== SMOOTH SCROLL FOR NAV =====
-navLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
