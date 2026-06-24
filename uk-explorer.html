@@ -168,6 +168,7 @@ window.addEventListener('load', function() {
   <a href="#cover"><span class="dot"></span>首页</a>
   <a href="#geo"><span class="dot"></span>地理</a>
   <a href="#rivers"><span class="dot"></span>河流·首都</a>
+  <a href="#cities"><span class="dot"></span>主要城市</a>
   <a href="#agri"><span class="dot"></span>农业</a>
   <a href="#indrev"><span class="dot"></span>工业革命</a>
   <a href="#inventions"><span class="dot"></span>发明成就</a>
@@ -199,13 +200,20 @@ window.addEventListener('load', function() {
     <h2 class="section-title">地理位置 &amp; 地形地势</h2>
     <p class="section-sub">英国位于欧洲西北部，由大不列颠岛及周边岛屿组成，地形丰富多样。</p>
 
-    <div class="map-container">
-      <img src="https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=800"
-           alt="英国田野与地形"
-           width="800" height="533"
-           loading="lazy" decoding="async"
-           srcset="https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=400 400w, https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=800 800w, https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=1400 1400w"
-           sizes="(max-width: 768px) 100vw, 800px">
+    <div class="content-grid" style="margin-bottom:1.25rem">
+      <div>
+        <div class="map-container" style="height:clamp(220px,40vh,420px);background:#d4cfc8;position:relative">
+          <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-10.5%2C49.5%2C2.5%2C59.5&amp;layer=mapnik&amp;marker=54.5%2C-4.0"
+                  width="100%" height="100%" style="border:0"
+                  loading="lazy" referrerpolicy="no-referrer"
+                  title="欧洲地图：英国位置"></iframe>
+        </div>
+      </div>
+      <div>
+        <div class="photo-banner" style="height:clamp(220px,40vh,420px);background-image:url('uk-aerial.jpg');margin-bottom:0;background-size:cover;background-position:center">
+          <div class="caption">🇬🇧 英伦三岛航拍 — 绿色田野与绵延海岸线</div>
+        </div>
+      </div>
     </div>
 
     <div class="content-grid">
@@ -271,7 +279,43 @@ window.addEventListener('load', function() {
   </div>
 </section>
 
-<!-- ===== 4. AGRICULTURE ===== -->
+<!-- ===== 4. MAJOR CITIES ===== -->
+<section class="slide slide-cream" id="cities">
+  <div class="slide-inner">
+    <div class="flag-bar"><span class="e"></span><span class="s"></span><span class="w"></span><span class="ni"></span></div>
+    <h2 class="section-title">主要城市</h2>
+    <p class="section-sub">英国四大地区的首府——每一座城市都有自己的故事与气质。</p>
+
+    <div class="content-grid">
+      <div class="card">
+        <div class="photo-banner" style="height:140px;background-image:url('https://images.pexels.com/photos/513195/pexels-photo-513195.jpeg?auto=compress&cs=tinysrgb&w=600&fit=crop');margin-bottom:.6rem"></div>
+        <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 伦敦 &middot; London</h3>
+        <p>英格兰首府，人口 900 万。全球金融中心、文化之都。泰晤士河穿城而过，大本钟、伦敦眼、白金汉宫、大英博物馆等世界级地标林立。</p>
+      </div>
+      <div class="card">
+        <div class="photo-banner" style="height:140px;background-image:url('https://images.pexels.com/photos/1444416/pexels-photo-1444416.jpeg?auto=compress&cs=tinysrgb&w=600&fit=crop');margin-bottom:.6rem"></div>
+        <h3>🏴󠁧󠁢󠁳󠁣󠁴󠁿 爱丁堡 &middot; Edinburgh</h3>
+        <p>苏格兰首府，人口 50 万。以爱丁堡城堡和皇家英里的中世纪建筑闻名，每年举办的边缘艺术节（Fringe Festival）是全球最大艺术节。</p>
+      </div>
+      <div class="card">
+        <div class="photo-banner" style="height:140px;background-image:url('cardiff.jpg');margin-bottom:.6rem"></div>
+        <h3>🏴󠁧󠁢󠁷󠁬󠁳󠁿 卡迪夫 &middot; Cardiff</h3>
+        <p>威尔士首府，人口 36 万。以卡迪夫城堡和国家博物馆著称。千禧体育场是威尔士橄榄球的精神地标。威尔士语与英语并存的城市。</p>
+      </div>
+      <div class="card">
+        <div class="photo-banner" style="height:140px;background-image:url('https://images.pexels.com/photos/2487566/pexels-photo-2487566.jpeg?auto=compress&cs=tinysrgb&w=600&fit=crop');margin-bottom:.6rem"></div>
+        <h3>🇮🇪 贝尔法斯特 &middot; Belfast</h3>
+        <p>北爱尔兰首府，人口 34 万。泰坦尼克号的诞生地。从工业重镇转型为文化创意中心，和平墙和市政厅记录着这个城市的历史变迁。</p>
+      </div>
+    </div>
+
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/1139671/pexels-photo-1139671.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">伦敦天际线 — 古典与现代的交汇</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. AGRICULTURE ===== -->
 <section class="slide slide-light" id="agri">
   <div class="slide-inner">
     <div class="flag-bar"><span class="w"></span><span class="e"></span><span class="s"></span></div>
@@ -310,14 +354,14 @@ window.addEventListener('load', function() {
   </div>
 </section>
 
-<!-- ===== 5. INDUSTRIAL REVOLUTION ===== -->
+<!-- ===== 6. INDUSTRIAL REVOLUTION ===== -->
 <section class="slide slide-dark" id="indrev">
   <div class="slide-inner">
     <h2 class="section-title">工业革命</h2>
     <p class="section-sub">英国是工业革命的发源地，这场始于 18 世纪中期的变革彻底改变了人类的生产方式。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/205990/pexels-photo-205990.jpeg?auto=compress&cs=tinysrgb&w=800')">
-      <div class="caption">工业革命时期的遗迹</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/541025/pexels-photo-541025.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">英国工业时代的工厂建筑</div>
     </div>
 
     <div class="content-grid">
@@ -336,15 +380,15 @@ window.addEventListener('load', function() {
   </div>
 </section>
 
-<!-- ===== 6. INVENTIONS ===== -->
+<!-- ===== 7. INVENTIONS ===== -->
 <section class="slide slide-cream" id="inventions">
   <div class="slide-inner">
     <div class="flag-bar"><span class="e"></span><span class="s"></span><span class="w"></span><span class="ni"></span></div>
     <h2 class="section-title">发明成就</h2>
     <p class="section-sub">从蒸汽机到互联网，英国的发明家们深刻改变了人类文明的进程。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/268397/pexels-photo-268397.jpeg?auto=compress&cs=tinysrgb&w=800')">
-      <div class="caption">蒸汽时代的遗迹</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/2732359/pexels-photo-2732359.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">经典蒸汽火车 — 工业时代的标志</div>
     </div>
 
     <div class="timeline">
@@ -376,15 +420,15 @@ window.addEventListener('load', function() {
   </div>
 </section>
 
-<!-- ===== 7. ECONOMY & EDUCATION ===== -->
+<!-- ===== 8. ECONOMY & EDUCATION ===== -->
 <section class="slide slide-light" id="economy">
   <div class="slide-inner">
     <div class="flag-bar"><span class="e"></span><span class="s"></span><span class="w"></span><span class="ni"></span></div>
     <h2 class="section-title">现代经济与教育</h2>
     <p class="section-sub">今天的英国是全球第六大经济体，也是世界上最受留学生欢迎的留学目的地之一。</p>
 
-    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/699466/pexels-photo-699466.jpeg?auto=compress&cs=tinysrgb&w=800')">
-      <div class="caption">英国乡村与城市的和谐共生</div>
+    <div class="photo-banner" style="background-image:url('https://images.pexels.com/photos/3640895/pexels-photo-3640895.jpeg?auto=compress&cs=tinysrgb&w=800')">
+      <div class="caption">伦敦金融城 — 全球资本与创新的枢纽</div>
     </div>
 
     <div class="content-grid">
